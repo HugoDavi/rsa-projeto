@@ -94,7 +94,6 @@ def decrypt(privateKey, n, ciphertext):
 	key = int(privateKey)
 	# Generate the plaintext based on the ciphertext and key using a^b mod m with fast modular exponentiation
 	plain = [pow(int(char), key, n) for char in ciphertext]
-	print(plain)
 	plain = [amorimToAscii(char) for char in plain]
 	# Return the array of bytes as a string
 	return ''.join(plain)
