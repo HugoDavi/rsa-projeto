@@ -1,0 +1,5 @@
+[
+  "tests.py::testExtendedGcd", 
+  "tests.py::testPrimeChecker", 
+  "tests.py::testEncryptDecrypt"
+]
