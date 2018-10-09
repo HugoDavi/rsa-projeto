@@ -4,36 +4,44 @@
 # imports
 import rsa
 import sys
-from rsa import generateKeyManual
 from rsa import encrypt
 from rsa import decrypt
+from rsa import generatePrivateKey, generatePublicKey
 # main
 
 
 def gerar_chave():
     p = int(input("Escolha um valor para p: "))
     q = int(input("Escolha um valor para p: "))
-    (n, e, d) = generateKeyManual(p, q)
-    print(n, e, d)
-    # publica, privada, inverso mulriplicativo
+    e = int(input("Escolhe um valor para e: "))
+    (n, e, d) = generatePublicKey(p, q, e)
+    with open("pub.txt", "w") as f:
+        f.write("e = {}\n n = {}".format(e, n))
+    with open("priv.txt","w") as f:
+        f.write("d = {}\n n = {}".format(d,n))
+    # privada = e, n (numero x elevado a e mód n)
+    # publica = d, n (numero x elevado a d mód n)
 
 
 def encriptografar():
-    message = input("Ditite mensagem para encriptar: ")
-    d = int(input("Digite d: "))
+    message = input("Digite mensagem para encriptar: ")
+    e = int(input("Digite e: "))
     n = int(input("Digite n: "))
 
-    encripted = encrypt(d, n, message)
-    print("PRINITING....................")
-    print(encripted)
-
+    encripted = encrypt(e, n, message)
+    encripted = [str(x) for x in encripted]
+    with open("cipher.txt") as f:
+                f.write(" ".join(encripted))
 
 def desencriptografar():
-    private_key = int(input("Digite a chave privada: "))
-    public_key = int(input("Digite a chave publica: "))
-    encripted_text = input("Digite o texto encriptado: ")
-    message = decrypt(private_key, public_key, encripted_text)
-    print(message)
+    p = input("Insira o p: ")
+    q = input("Insira o q: ")
+    e = input("Insira o e: ")
+    encripted_text = input("Digite o texto encriptado(Separado): ")
+    n,e,d = generatePublicKey(p,q,e)
+    message = decrypt(d,n, encripted_text)
+    with open("Decypher.txt","w") as f:
+        f.write(message)
 
 
 def main():
